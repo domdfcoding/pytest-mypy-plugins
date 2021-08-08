@@ -201,8 +201,9 @@ class YamlTestItem(pytest.Item):
             self.environment_variables["SYSTEMROOT"] = os.environ["SYSTEMROOT"]
 
         completed = subprocess.run(
-            [mypy_executable, *mypy_cmd_options],
-            capture_output=True,
+            [sys.executable, "-m", "mypy", *mypy_cmd_options],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
             cwd=os.getcwd(),
             env=self.environment_variables,
         )
