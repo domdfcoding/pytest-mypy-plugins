@@ -193,10 +193,6 @@ class YamlTestItem(pytest.Item):
     def typecheck_in_new_subprocess(
         self, execution_path: Path, mypy_cmd_options: List[Any]
     ) -> Tuple[int, Tuple[str, str]]:
-        import distutils.spawn
-
-        mypy_executable = distutils.spawn.find_executable("mypy")
-        assert mypy_executable is not None, "mypy executable is not found"
 
         rootdir = getattr(getattr(self.parent, "config", None), "rootdir", None)
         # add current directory to path
@@ -209,7 +205,7 @@ class YamlTestItem(pytest.Item):
             self.environment_variables["SYSTEMROOT"] = os.environ["SYSTEMROOT"]
 
         completed = subprocess.run(
-            [mypy_executable, *mypy_cmd_options],
+            [sys.executable, "-m", "mypy", *mypy_cmd_options],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             cwd=os.getcwd(),
