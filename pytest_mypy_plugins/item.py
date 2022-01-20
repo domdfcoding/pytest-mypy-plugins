@@ -185,10 +185,6 @@ class YamlTestItem(pytest.Item):
     def typecheck_in_new_subprocess(
         self, execution_path: Path, mypy_cmd_options: List[Any]
     ) -> Tuple[int, Tuple[str, str]]:
-        import shutil
-
-        mypy_executable = shutil.which("mypy")
-        assert mypy_executable is not None, "mypy executable is not found"
 
         rootdir = getattr(getattr(self.parent, "config", None), "rootdir", None)
         # add current directory to path
